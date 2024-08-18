@@ -11,8 +11,8 @@ export default async function ProductInfoPage({ params }) {
     return (
       <main className="flex justify-center items-center w-full min-h-screen bg-gray-100">
         <div className="text-center p-4">
-          <h1 className="text-2xl font-bold text-red-600">Error</h1>
-          <p className="text-lg mt-2">{message}</p>
+          <h1 className="text-lg md:text-2xl font-bold text-red-600">Error</h1>
+          <p className=" text-sm md:text-lg mt-2">{message}</p>
         </div>
       </main>
     );
@@ -26,7 +26,7 @@ export default async function ProductInfoPage({ params }) {
           alt={`Thumbnail of ${data.title}`}
           width={350}
           height={350}
-          className="object-cover w:[50%] md:w-full h-auto mb-4 shadow-md mx-[1rem]"
+          className="object-cover w:[50%] md:w-full h-auto mb-4 shadow-md mx-auto"
         />
         <div className="grid grid-cols-4 gap-2 mt-4">
           {data.images.map((image, index) => (
@@ -42,27 +42,27 @@ export default async function ProductInfoPage({ params }) {
         </div>
       </div>
       <div className="lg:w-2/5 w-full">
-        <h1 className="text-2xl font-bold mb-2">{data.title}</h1>
-        <p className="text-md mb-4">
+        <h1 className="text-lg md:text-2xl font-bold mb-2">{data.title}</h1>
+        <p className="text-xs md:text-lg mb-4">
           Description -  <br></br>
           {data.description}
         </p>
-        <p className="text-lg font-semibold mb-2">Price: ${data.price}</p>
-        <p className="text-md mb-2">
+        <p className="text-sm md:text-lg font-semibold mb-2">Price: ${data.price}</p>
+        <p className="text-sm mb-2">
           <strong>Brand:</strong> {data.brand}
         </p>
-        <p className="text-md mb-2">
+        <p className="text-sm mb-2">
           <strong>Category:</strong> {data.category}
         </p>
-        <p className="text-md mb-2">
+        <p className="text-sm mb-2">
           <strong>Ratings:</strong> {data.ratings}
         </p>
-        <p className="text-md mb-4">
+        <p className="text-sm mb-4">
           <strong>Warranty Information:</strong> {data.warrantyInformation}
         </p>
 
-        <h2 className="text-lg font-semibold mb-2">Reviews</h2>
-        <div className="space-y-4 mb-[2rem]">
+        <h2 className="text-sm md:text-lg font-semibold mb-2">Reviews</h2>
+        <div className="space-y-4 mb-[2rem] text-sm md:text-lg">
           {data.reviews.map((review, index) => (
             <div key={index} className="p-4 border rounded bg-white shadow-sm">
               <p className="font-semibold">{review.reviewerName}</p>

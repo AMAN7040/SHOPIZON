@@ -2,7 +2,8 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import Header from "./components/header/Header";
 import ReduxProvider from "@/provider";
-import Footer from "./components/Footer";
+import { ToastContainer } from "react-toastify";
+
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -14,11 +15,13 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className={`${inter.className} flex flex-col min-h-screen o`}>
         <ReduxProvider>
           <Header />
-          {children}
-          <Footer/>
+          <ToastContainer />
+          <main className="flex-grow">
+            {children}
+          </main>
         </ReduxProvider>
       </body>
     </html>
