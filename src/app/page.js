@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export default async function Home() {
   return (
-    <div className="'bg-gray-200 space-y-[4rem] mx-[1.5rem]" style={{ height: 'calc(85vh - 5rem)' }}>
+    <div className="bg-gray-200 space-y-[4rem] mx-[1.5rem]" style={{ height: 'calc(85vh - 5rem)' }}>
       <div className="text-center mx-auto h-[20rem] py-[3rem] my-[5rem] mb-2 shadow-lg">
         <h1 className="text-[2rem] md:text-[2.8rem]">Welcome to Our Shop</h1>
         <p className="text-[1.3rem] md:text-[1.7rem] mb-[3rem]">
