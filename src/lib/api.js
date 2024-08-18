@@ -6,7 +6,7 @@ export async function fetchProducts() {
   try {
     const response = await fetch("https://dummyjson.com/products?limit=12", {
       method: "GET",
-      cache: "no-store",
+      cache: "force-cache",
     });
     if (!response.ok) {
       throw new Error("Failed to fetch products");
