@@ -64,7 +64,7 @@ const CartPage = () => {
       {cart.length === 0 ? (
         <p className="text-md md:text-lg">Nothing in cart. Please add items.</p>
       ) : (
-        <div className="">
+        <div className="flex">
           {cart.map((item) => (
             <div
               key={item.id}
