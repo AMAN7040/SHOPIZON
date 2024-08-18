@@ -21,10 +21,10 @@ export default async function Home() {
       <div className="text-center mx-auto h-[15rem] my-[2rem] shadow-lg">
         <h2 className="text-[1.5rem] md:text-[2.2rem] mb-[1rem]">About Us</h2>
         <p className="text-[1.1rem] md:text-[1.3rem]">
-          
+      
           We are committed to providing you with the best shopping experience.
           Our store offers a wide variety of products to meet all your needs.
-          Whether you're looking for the latest trends or timeless classics, we
+          Whether you are looking for the latest trends or timeless classics, we
           have something for everyone.
         </p>
       </div>
