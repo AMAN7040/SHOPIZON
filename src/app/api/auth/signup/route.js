@@ -1,6 +1,8 @@
 import connectMongo from "@/lib/mongodb";
 import User from "@/modals/User";
 
+export const runtime = 'nodejs';
+
 
 export async function POST(request) {
   await connectMongo();
