@@ -18,7 +18,9 @@ const AddCart = ({ item }) => {
   const handleAddCart = () => {
     if (!isInCart) {
       dispatch(addToCart(item));
-      toast.success("Item added to cart!");
+      toast.success("Item added to cart!" ,{
+        autoClose: 1500,
+      });
     } else {
       toast.info("Item already in cart.");
     }
