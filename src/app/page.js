@@ -12,7 +12,7 @@ export default async function Home() {
         <Link
           href="/products"
           className="bg-yellow-300 text-gray-800 px-[1.8rem] py-[1.3rem] rounded-lg text-lg
-          font-semibold hover:bg-yellow-600 transition"
+          font-semibold hover:bg-yellow-400 transition"
         >
           
           Explore Products
