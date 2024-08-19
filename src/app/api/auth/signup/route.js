@@ -2,9 +2,10 @@ import connectMongo from "@/lib/mongodb";
 import User from "@/modals/User";
 
 export async function POST(request) {
+    console.log('connecting db')
   try {
     await connectMongo(); // Ensure the database is connected
-
+    console.log('connected db')
     const { name, email, password } = await request.json();
 
     if (!name || !email || !password) {
