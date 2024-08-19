@@ -1,11 +1,11 @@
 "use client"; // Ensure this component is a client component
 
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
-import React, { useState } from "react";
-import { removeFromCart, updateQuantity } from "@/store/slice/cartSlice";
 import Image from "next/image";
 import { toast } from "react-toastify";
+import { removeFromCart, updateQuantity } from "@/store/slice/cartSlice";
 
 const CartPage = () => {
   const cart = useSelector((store) => store.cart);
@@ -16,6 +16,13 @@ const CartPage = () => {
   const [isDiscountApplied, setIsDiscountApplied] = useState(false);
   const [discountAmount, setDiscountAmount] = useState(0);
   const [error, setError] = useState("");
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      router.push("/signin"); // Redirect to sign-in page if no token is found
+    }
+  }, [router]);
 
   const handleRemove = (item) => {
     dispatch(removeFromCart(item));
@@ -40,7 +47,6 @@ const CartPage = () => {
   };
 
   const handleApplyDiscount = () => {
-    // Example discount codes and their discount amounts
     const discountCodes = {
       SAVE10: 0.1, // 10% discount
       SAVE20: 0.2, // 20% discount
