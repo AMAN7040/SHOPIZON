@@ -1,7 +1,9 @@
 import connectMongo from "@/lib/mongodb";
 import User from "@/modals/User";
 
-
+export const config = {
+    maxDuration: 60,
+  };
 
 export async function POST(request) {
   await connectMongo();

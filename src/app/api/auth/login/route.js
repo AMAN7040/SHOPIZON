@@ -2,6 +2,10 @@ import connectMongo from "@/lib/mongodb";
 import User from "@/modals/User";
 import jwt from "jsonwebtoken";
 
+export const config = {
+    maxDuration: 60,
+  };
+
 export async function POST(request) {
   try {
     await connectMongo();
