@@ -1,7 +1,7 @@
-import AddCart from "@/app/components/AddCart";
 import { fetchProductDetails } from "@/lib/api";
 import Image from "next/image";
 import { formatDistanceToNow } from "date-fns";
+import AddCart from "@/app/components/add-to-cart/AddCart";
 
 export default async function ProductInfoPage({ params }) {
   const { productId } = params;
@@ -44,10 +44,12 @@ export default async function ProductInfoPage({ params }) {
       <div className="lg:w-2/5 w-full">
         <h1 className="text-lg md:text-2xl font-bold mb-2">{data.title}</h1>
         <p className="text-xs md:text-lg mb-4">
-          Description -  <br></br>
+          Description - <br></br>
           {data.description}
         </p>
-        <p className="text-sm md:text-lg font-semibold mb-2">Price: ${data.price}</p>
+        <p className="text-sm md:text-lg font-semibold mb-2">
+          Price: ${data.price}
+        </p>
         <p className="text-sm mb-2">
           <strong>Brand:</strong> {data.brand}
         </p>

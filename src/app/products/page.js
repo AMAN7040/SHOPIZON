@@ -1,5 +1,5 @@
 import { fetchProducts } from "@/lib/api";
-import ProductCard from "../components/ProductCard";
+import ProductCard from "../components/product-card/ProductCard";
 
 export default async function productPage() {
   const { success, data: products, message } = await fetchProducts();
