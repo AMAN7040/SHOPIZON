@@ -19,7 +19,9 @@ const CartPage = () => {
 
   const handleRemove = (item) => {
     dispatch(removeFromCart(item));
-    toast.info('Removed Card Item')
+    toast.info('Removed Card Item',{
+      autoClose: 1500,
+    });
   };
 
   const handleQuantityChange = (item, quantity) => {
@@ -81,7 +83,7 @@ const CartPage = () => {
                   className="object-cover w-[30%] md:w-[10%] h-auto mb-4 shadow-md mx-[1rem]"
                 />
                 <div className="flex-grow">
-                  <h2 className="text-md md:text-xl font-semibold">
+                  <h2 className="text-md md:text-lg font-semibold">
                     {item.title}
                   </h2>
                   <p>{formatCurrency(item.price * item.quantity)}</p>
@@ -127,7 +129,7 @@ const CartPage = () => {
             ))}
           </div>
 
-          <div className="md:mt-6 p-[1rem] shadow-md md:w-2/5 text-[0.7rem] md:text-[1.2rem] mb-4">
+          <div className="md:mt-6 p-[1rem] shadow-md md:w-2/5 text-[0.7rem] md:text-[1rem] mb-4">
             <h2 className="text-lg md:text-xl font-bold mb-2">Cart Summary</h2>
             <p>Subtotal: {formatCurrency(subtotal)}</p>
             <p>
@@ -144,11 +146,11 @@ const CartPage = () => {
                   value={discountCode}
                   onChange={(e) => setDiscountCode(e.target.value)}
                   placeholder="Enter discount code"
-                  className="border p-2 rounded mr-2 px-2 py-1 md:px-4 md:py-2"
+                  className="border p-2 rounded mr-2 px-2 py-1 md:px-3 md:py-2 mb-2"
                 />
                 <button
                   onClick={handleApplyDiscount}
-                  className="bg-blue-500 text-white px-2 py-1 md:px-4 md:py-2 rounded"
+                  className="bg-blue-500 text-white px-2 py-1 md:px-3 md:py-2 rounded"
                 >
                   Apply Discount
                 </button>
@@ -158,7 +160,7 @@ const CartPage = () => {
 
             <button
               onClick={() => router.push("/checkout")}
-              className="mt-4 bg-blue-500 text-white px-2 py-1 md:px-4 md:py-2 rounded"
+              className="mt-4 bg-blue-500 text-white px-2 py-1 md:px-3 md:py-2 rounded"
             >
               Checkout
             </button>
