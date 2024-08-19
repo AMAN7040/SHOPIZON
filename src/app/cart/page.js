@@ -19,7 +19,7 @@ const CartPage = () => {
 
   const handleRemove = (item) => {
     dispatch(removeFromCart(item));
-    toast.info('Removed Card Item',{
+    toast.info('Removed Cart item',{
       autoClose: 1500,
     });
   };
