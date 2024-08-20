@@ -26,6 +26,7 @@ const CartPage = () => {
     }
   }, [router]);
 
+  //Remove item from cart
   const handleRemove = (item) => {
     dispatch(removeFromCart(item));
     toast.info("Removed Cart item", {
@@ -33,10 +34,12 @@ const CartPage = () => {
     });
   };
 
+  //updating cartitem quantity
   const handleQuantityChange = (item, quantity) => {
     dispatch(updateQuantity({ id: item.id, quantity }));
   };
 
+  //total price of cart
   const calculateSubtotal = () => {
     return cart.reduce((total, item) => total + item.price * item.quantity, 0);
   };
