@@ -1,6 +1,6 @@
 "use client";
 
-import { logoutUser } from "@/store/slice/userSlice";
+import { logoutUser, setUser } from "@/store/slice/userSlice";
 import { faShoppingCart } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
@@ -8,6 +8,7 @@ import { usePathname, useRouter } from "next/navigation";
 
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { toast } from "react-toastify";
 
 const Header = () => {
   const active = usePathname();
@@ -18,11 +19,19 @@ const Header = () => {
 
   useEffect(() => {
     const token = localStorage.getItem("token");
+    if (token) {
+      dispatch(setUser(token)); //  updated with the user store token
+    } else {
+      dispatch(logoutUser()); // removed user from store 
+    }
   }, [dispatch]);
 
   const handleLogout = () => {
     localStorage.removeItem("token"); // Remove token from local storage
     dispatch(logoutUser());
+    toast.info('Logout successful. See you next time!',{
+      autoClose: 1500,
+    })
     router.push("/signin"); // Redirect to sign-in page
   };
 
