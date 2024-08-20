@@ -3,8 +3,8 @@ import Link from "next/link";
 export default async function Home() {
   return (
     <div className=" space-y-[4rem] mx-[1rem]">
-      <div className="bg-gray-100 text-center mx-auto h-[20rem] py-[3rem] my-[5rem] mb-2 shadow-lg w-[85%]">
-        <h1 className="text-[1.5rem] md:text-[2.8rem]">Welcome to Our Shop</h1>
+      <section aria-label='Wecome Section' className="bg-gray-100 text-center mx-auto min-h-[20rem] py-[3rem] my-[5rem] mb-2 shadow-lg w-[85%]">
+        <h1 className="font-bold text-[1.5rem] md:text-[2.8rem]">Welcome to Our Shop</h1>
         <p className="text-[0.9rem] md:text-[1.7rem] mb-[3rem] items-center">
           
           Discover our exclusive range of products tailored just for you.
@@ -17,8 +17,8 @@ export default async function Home() {
           
           Explore Products
         </Link>
-      </div>
-      <div className="bg-gray-100 text-center mx-auto h-[15rem] my-[2rem] shadow-lg w-[85%]">
+      </section>
+      <section aria-label="About Section" className="bg-gray-100 text-center mx-auto min-h-[15rem] my-[2rem] shadow-lg w-[85%]">
         <h2 className="text-[1.3rem] md:text-[2.2rem] mb-[1rem]">About Us</h2>
         <p className="text-[0.8rem] md:text-[1.3rem]">
       
@@ -27,7 +27,7 @@ export default async function Home() {
           Whether you are looking for the latest trends or timeless classics, we
           have something for everyone.
         </p>
-      </div>
+      </section>
     </div>
   );
 }
