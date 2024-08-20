@@ -8,13 +8,13 @@ export function middleware(request) {
       jwt.verify(token, process.env.JWT_SECRET);
       return NextResponse.next();
     } catch (error) {
-      return NextResponse.redirect('/signin');
+      return NextResponse.redirect(new URL('/signin', request.url));
     }
   }
 
-  return NextResponse.redirect('/signin');
+  return NextResponse.redirect(new URL('/signin', request.url));
 }
 
 export const config = {
-  matcher: ['/dashboard/:path*', '/profile/:path*'], // Apply to protected routes
+  matcher: ['/cart'], // Apply to the /cart route
 };
