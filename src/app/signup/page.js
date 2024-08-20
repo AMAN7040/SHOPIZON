@@ -1,18 +1,28 @@
-"use client"; // Use client-side JavaScript
+"use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { toast } from "react-toastify"; // Import toast for notifications
 
 export default function SignUp() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false); // Loading state
   const router = useRouter();
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      router.push("/"); // Redirect to home page if user is already logged in
+    }
+  }, [router]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true); // Set loading to true
     try {
       const response = await fetch("/api/auth/signup", {
         method: "POST",
@@ -23,12 +33,18 @@ export default function SignUp() {
       });
       const data = await response.json();
       if (response.ok) {
+        toast.success("Sign up successful! Redirecting to sign-in...", {
+          autoClose: 1500,
+        });
         router.push("/signin");
       } else {
         setError(data.error || "An error occurred");
       }
     } catch (error) {
       setError("An error occurred");
+      toast.error("An error occurred"); // Show error toast
+    } finally {
+      setLoading(false); // Set loading to false
     }
   };
 
@@ -63,15 +79,21 @@ export default function SignUp() {
           />
           <button
             type="submit"
+            disabled={loading} // Disable button while loading
             className="w-full bg-indigo-600 text-white py-2 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring focus:ring-indigo-200"
           >
-            Sign Up
+            {loading ? "Signing Up..." : "Sign Up"} {/* Button text change */}
           </button>
           {error && (
             <p className="text-red-600 text-sm text-center mt-2">{error}</p>
           )}
         </form>
-        <Link href='/signin'>already Signed in? <span className="text-indigo-600 text-underline">Login</span></Link>
+        <Link href="/signin">
+          <p className="text-center mt-4">
+            Already have an account?
+            <span className="text-indigo-600 underline"> Login</span>
+          </p>
+        </Link>
       </div>
     </div>
   );

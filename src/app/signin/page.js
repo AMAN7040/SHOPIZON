@@ -1,10 +1,11 @@
 "use client"; // Use client-side JavaScript
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useDispatch } from "react-redux";
 import { setUser } from "@/store/slice/userSlice";
+import { toast } from "react-toastify";
 
 export default function SignIn() {
   const [email, setEmail] = useState("");
@@ -13,8 +14,17 @@ export default function SignIn() {
   const router = useRouter();
   const dispatch = useDispatch();
 
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      router.push("/"); // Redirect to home page if user is already logged in
+    }
+  }, [router]);
+
+
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    e.preventDefault();    
     try {
       const response = await fetch("/api/auth/login", {
         method: "POST",
@@ -23,14 +33,19 @@ export default function SignIn() {
         },
         body: JSON.stringify({ email, password }),
       });
-      const data = await response.json();
-      if (response.ok) {
-        localStorage.setItem("token", data.token); // Store the token
-        dispatch(setUser(data.token));
-        router.push("/"); // Redirect to a protected route
-      } else {
+      if (!response.ok) {
+        const data = await response.json();
         setError(data.error || "An error occurred");
+        return;
       }
+
+      const data = await response.json();
+      localStorage.setItem("token", data.token); // Store the token
+      dispatch(setUser(data.token));
+      toast.success("User Logged in Successfully", {
+        autoClose: 1500,
+      });
+      router.push("/"); // Redirect to the home page or a protected route
     } catch (error) {
       setError("An error occurred");
     }
