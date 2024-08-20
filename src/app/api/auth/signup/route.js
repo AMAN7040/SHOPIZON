@@ -1,9 +1,10 @@
 import connectMongo from "@/lib/mongodb";
 import User from "@/modals/User";
 
+//user login
 export async function POST(request) {
   try {
-    await connectMongo(); // Ensure the database is connected
+    await connectMongo(); //Connecting Database
 
     const { name, email, password } = await request.json();
 
@@ -15,14 +16,16 @@ export async function POST(request) {
         }
       );
     }
-
+    
+    //to ensure the email does not already exists
     const existingUser = await User.findOne({ email });
     if (existingUser) {
       return new Response(JSON.stringify({ error: "User already exists" }), {
         status: 400,
       });
     }
-
+   
+    //new user signed up
     const newUser = new User({ name, email, password });
     await newUser.save();
 

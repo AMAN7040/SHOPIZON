@@ -4,23 +4,26 @@ import jwt from "jsonwebtoken";
 
 export async function POST(request) {
   try {
-    await connectMongo(); // Ensure the database is connected
+    await connectMongo(); //  database  connecting
 
     const { email, password } = await request.json();
 
+    //to ensure all fields are filled
     if (!email || !password) {
       return new Response(JSON.stringify({ error: "All fields are required" }), {
         status: 400,
       });
     }
-
+    
+    //finding user
     const user = await User.findOne({ email });
     if (!user) {
       return new Response(JSON.stringify({ error: "Invalid credentials" }), {
         status: 401,
       });
     }
-
+    
+    //authenticaing user
     const isMatch = await user.comparePassword(password);
     if (!isMatch) {
       return new Response(JSON.stringify({ error: "Invalid credentials" }), {
