@@ -14,15 +14,27 @@ export default function SignUp() {
   const router = useRouter();
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      router.push("/"); // Redirect to home page if user is already logged in
-    }
+    // Check for token in cookies to redirect if user is already logged in
+    const fetchToken = async () => {
+      try {
+        const response = await fetch("/api/auth/check-session", {
+          method: "GET",
+          credentials: "include", // Ensure cookies are sent with the request
+        });
+        if (response.ok) {
+          router.push("/"); // Redirect to home page if user is already logged in
+        }
+      } catch (error) {
+        // Handle error if necessary
+      }
+    };
+
+    fetchToken();
   }, [router]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true); // Set loading to true
+    setLoading(true); // Set loading to true while processing
     try {
       const response = await fetch("/api/auth/signup", {
         method: "POST",
@@ -31,6 +43,7 @@ export default function SignUp() {
         },
         body: JSON.stringify({ name, email, password }),
       });
+
       const data = await response.json();
       if (response.ok) {
         toast.success("Sign up successful! Redirecting to sign-in...", {
@@ -44,7 +57,7 @@ export default function SignUp() {
       setError("An error occurred");
       toast.error("An error occurred"); // Show error toast
     } finally {
-      setLoading(false); // Set loading to false
+      setLoading(false); // Set loading to false after processing
     }
   };
 

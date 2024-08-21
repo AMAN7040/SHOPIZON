@@ -14,17 +14,28 @@ export default function SignIn() {
   const router = useRouter();
   const dispatch = useDispatch();
 
-
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      router.push("/"); // Redirect to home page if user is already logged in
-    }
+    const checkAuth = async () => {
+      try {
+        const response = await fetch("/api/auth/check-session", {
+          method: "GET",
+          credentials: "include", // Include cookies in the request
+        });
+
+        if (response.ok) {
+          router.push("/"); // Redirect to home page if user is already logged in
+        }
+      } catch (error) {
+        // console.error("Failed to check authentication:", error);
+      }
+    };
+
+    checkAuth();
   }, [router]);
 
-
   const handleSubmit = async (e) => {
-    e.preventDefault();    
+    e.preventDefault();
+
     try {
       const response = await fetch("/api/auth/login", {
         method: "POST",
@@ -32,20 +43,21 @@ export default function SignIn() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ email, password }),
+        credentials: "include", // Include cookies in the request
       });
+
       if (!response.ok) {
         const data = await response.json();
         setError(data.error || "An error occurred");
         return;
       }
 
-      const data = await response.json();
-      localStorage.setItem("token", data.token); // Store the token
-      dispatch(setUser(data.token));
+      dispatch(setUser("true"));
+
       toast.success("User Logged in Successfully", {
         autoClose: 1500,
       });
-      router.push("/"); // Redirect to the home page or a protected route
+      router.push("/"); // Redirect to the home page 
     } catch (error) {
       setError("An error occurred");
     }
