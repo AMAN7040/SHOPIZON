@@ -3,7 +3,6 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
-import Image from "next/image";
 import { toast } from "react-toastify";
 import { removeFromCart, updateQuantity } from "@/store/slice/cartSlice";
 import CartItem from "../components/cartItem/CartItem";
@@ -19,12 +18,7 @@ const CartPage = () => {
   const [discountAmount, setDiscountAmount] = useState(0);
   const [error, setError] = useState("");
 
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (!token) {
-      router.push("/signin"); // Redirect to sign-in page if no token is found
-    }
-  }, [router]);
+  
 
   //Remove item from cart
   const handleRemove = (item) => {
