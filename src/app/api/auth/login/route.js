@@ -1,5 +1,6 @@
 import connectMongo from "@/lib/mongodb";
 import User from "@/modals/User";
+import { serialize } from "cookie";
 import jwt from "jsonwebtoken";
 
 export async function POST(request) {
@@ -10,11 +11,14 @@ export async function POST(request) {
 
     //to ensure all fields are filled
     if (!email || !password) {
-      return new Response(JSON.stringify({ error: "All fields are required" }), {
-        status: 400,
-      });
+      return new Response(
+        JSON.stringify({ error: "All fields are required" }),
+        {
+          status: 400,
+        }
+      );
     }
-    
+
     //finding user
     const user = await User.findOne({ email });
     if (!user) {
@@ -22,7 +26,7 @@ export async function POST(request) {
         status: 401,
       });
     }
-    
+
     //authenticaing user
     const isMatch = await user.comparePassword(password);
     if (!isMatch) {
@@ -35,9 +39,23 @@ export async function POST(request) {
       expiresIn: "1h",
     });
 
-    return new Response(JSON.stringify({ token }), { status: 200 });
+    const cookie = serialize("token", token, {
+      httpOnly: true, // Prevents JavaScript access to the cookie
+      secure: process.env.NODE_ENV === "production", // Secure only in production
+      maxAge: 3600, // 1 hour
+      path: "/", // Available across the entire site
+    });
+
+    return new Response(
+      JSON.stringify({ message: "Login successful" }), // Success message
+      {
+        status: 200,
+        headers: {
+          "Set-Cookie": cookie, // Set the cookie in the response
+        },
+      }
+    );
   } catch (error) {
-    console.error('Error during login:', error); // Detailed logging
     return new Response(JSON.stringify({ error: "Internal server error" }), {
       status: 500,
     });
