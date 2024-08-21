@@ -18,21 +18,50 @@ const Header = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      dispatch(setUser(token)); //  updated with the user store token
-    } else {
-      dispatch(logoutUser()); // removed user from store 
-    }
+    const checkAuth = async () => {
+      try {
+        const response = await fetch("/api/auth/check-session", {
+          method: "GET",
+          credentials: "include", // Include cookies in the request
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          if (data.authenticated) {
+            dispatch(setUser("true"));
+          } else {
+            dispatch(logoutUser()); // Remove user from Redux store
+          }
+        } else {
+          dispatch(logoutUser()); // Ensure user is logged out on error
+        }
+      } catch (error) {
+        dispatch(logoutUser()); // Ensure user is logged out on error
+      }
+    };
+
+    checkAuth();
   }, [dispatch]);
 
-  const handleLogout = () => {
-    localStorage.removeItem("token"); // Remove token from local storage
-    dispatch(logoutUser());
-    toast.info('Logout successful. See you next time!',{
-      autoClose: 1500,
-    })
-    router.push("/signin"); // Redirect to sign-in page
+  const handleLogout = async () => {
+    try {
+      const response = await fetch("/api/auth/logout", {
+        method: "POST",
+        credentials: "include", // Include cookies in the request
+      });
+
+      if (response.ok) {
+        dispatch(logoutUser()); // Remove user from Redux store
+        toast.info("Logout successful. See you next time!", {
+          autoClose: 1500,
+        });
+        router.push("/signin"); // Redirect to sign-in page
+      } else {
+        toast.error("Logout failed. Please try again.", { autoClose: 1000 });
+      }
+    } catch (error) {
+      toast.error("Logout failed. Please try again.", { autoClose: 1000 });
+    }
   };
 
   return (
