@@ -1,6 +1,7 @@
 'use client'
 import Image from "next/image";
 import React from "react";
+import defaultImage from '../../../assets/images/defaultimage.png'; 
 
 const CartItem = ({ item, handleQuantityChange, handleRemove, formatCurrency }) => {
     
@@ -9,14 +10,14 @@ const CartItem = ({ item, handleQuantityChange, handleRemove, formatCurrency }) 
       className="flex items-center mb-4 border p-2 md:p-4 rounded"
     >
       <Image
-        src={item?.thumbnail}
-        alt={`Thumbnail of ${item.title}`}
+        src={item?.imageUrl || defaultImage}
+        alt={`Thumbnail of ${item?.name}`}
         width={200}
         height={200}
         className="object-cover w-[30%] md:w-[10%] h-auto mb-4 shadow-md mx-[1rem]"
       />
       <div className="flex-grow">
-        <h2 className="text-md md:text-lg font-semibold">{item.title}</h2>
+        <h2 className="text-md md:text-lg font-semibold">{item?.name}</h2>
         <p>{formatCurrency(item.price * item.quantity)}</p>
         <div className="md:flex items-center mt-2 text-[0.7rem] md:text-[1rem]">
           <div className="flex items-center my-[1rem] ">
