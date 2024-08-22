@@ -22,5 +22,5 @@ export async function middleware(request) {
 }
 
 export const config = {
-  matcher: ["/cart"], // Apply to the /cart route
+  matcher: ["/cart"], //cart route protected
 };
