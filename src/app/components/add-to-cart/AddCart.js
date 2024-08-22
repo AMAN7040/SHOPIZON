@@ -38,7 +38,10 @@ const AddCart = ({ item }) => {
         });
         router.push("/cart");
       } else {
-        router.push('/signin')
+        toast.success("Item added to cart! But Login to see Cart", {
+          autoClose: 1500,
+        });
+        router.push("/signin");
       }
     } catch (error) {
       console.error("Error during API request:", error);
