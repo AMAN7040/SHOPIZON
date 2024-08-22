@@ -38,13 +38,11 @@ const AddCart = ({ item }) => {
         });
         router.push("/cart");
       } else {
-        const errorData = await response.text(); // Use text() to capture unexpected HTML responses
-        console.error("Failed to add item to cart:", errorData);
-        toast.error("Failed to add item to cart.");
+        router.push('/signin')
       }
     } catch (error) {
       console.error("Error during API request:", error);
-      toast.error("Failed to add item to cart.");
+      // toast.error("Failed to add item to cart.");
     }
   };
 
