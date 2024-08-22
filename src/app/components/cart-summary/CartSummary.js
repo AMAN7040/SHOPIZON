@@ -1,5 +1,3 @@
-import { useRouter } from "next/navigation";
-
 const CartSummary = ({
   subtotal,
   discount,
@@ -9,9 +7,9 @@ const CartSummary = ({
   isDiscountApplied,
   handleApplyDiscount,
   formatCurrency,
+  handleCheckout,
   error,
 }) => {
-  const router = useRouter()
   return (
     <div className="md:mt-6 p-[1rem] shadow-md md:w-2/5 text-[0.7rem] md:text-[1rem] mb-4">
       <h2 className="text-lg md:text-xl font-bold mb-2">Cart Summary</h2>
@@ -43,7 +41,7 @@ const CartSummary = ({
       )}
 
       <button
-        onClick={() => router.push("/checkout")}
+        onClick={() => handleCheckout()}
         className="mt-4 bg-blue-500 text-white px-2 py-1 md:px-3 md:py-2 rounded"
       >
         Checkout
