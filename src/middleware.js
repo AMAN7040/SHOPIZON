@@ -1,29 +1,32 @@
 import { NextResponse } from 'next/server';
-import jwt from 'jsonwebtoken';
+import { jwtVerify } from 'jose';
 
 export async function middleware(request) {
-  // Access cookies from the request
+  // Extract the token from cookies
   const cookies = request.cookies;
-  console.log('Cookies:', cookies);
-
-  // Extract the token
+  console.log(cookies)
   const token = cookies.get('_vercel_jwt')?.value;
-  console.log('Token:', token);
+  console.log(token)
 
   if (token) {
     try {
       // Verify the token
-      await jwt.verify(token, process.env.JWT_SECRET);
+      await jwtVerify(token, new TextEncoder().encode(process.env.JWT_SECRET));
+
+      // Token is valid, proceed to the requested page
       return NextResponse.next();
     } catch (error) {
-      console.error('Token verification failed:', error);
-      return NextResponse.redirect(new URL('/signin', request.url));
+      // Token is invalid or expired, redirect to sign-in
+      return NextResponse.redirect(new URL("/signin", request.url));
+  
     }
   }
-  console.log('token is not present')
-  return NextResponse.redirect(new URL('/signin', request.url));
+
+  // No token present, redirect to sign-in
+  return NextResponse.redirect(new URL("/signin", request.url));
+
 }
 
 export const config = {
-  matcher: ['/cart'], // Ensure this matches your route
+  matcher: ['/cart'], // Protect the cart route
 };
