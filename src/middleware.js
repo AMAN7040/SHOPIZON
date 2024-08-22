@@ -1,5 +1,4 @@
 import { NextResponse } from "next/server";
-
 import { jwtVerify } from "jose";
 
 export async function middleware(request) {
@@ -7,7 +6,7 @@ export async function middleware(request) {
 
   if (token) {
     try {
-      const decoded = await jwtVerify(
+      const decoded = jwtVerify(
         token,
         new TextEncoder().encode(process.env.JWT_SECRET)
       );
