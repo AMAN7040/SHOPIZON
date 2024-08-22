@@ -1,10 +1,10 @@
 "use client";
-import { addToCart } from '@/store/slice/cartSlice';
-import { useRouter } from 'next/navigation';
+import { addToCart } from "@/store/slice/cartSlice";
+import { useRouter } from "next/navigation";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const AddCart = ({ item }) => {
   const cart = useSelector((store) => store.cart);
@@ -12,24 +12,45 @@ const AddCart = ({ item }) => {
   const router = useRouter();
 
   // Check if item is in the cart
-  const isInCart = cart.some((product) => product.id === item?.id);
+  const isInCart = cart.some((product) => product.productId === item.id);
 
   // Handle adding item to cart and showing toast
-  const handleAddCart = () => {
-    if (!isInCart) {
-      dispatch(addToCart(item));
-      toast.success("Item added to cart!" ,{
-        autoClose: 1500,
+  const handleAddCart = async () => {
+    try {
+      const response = await fetch("/api/cart/addCartItems", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          productId: item.id,
+          quantity: 1,
+          name: item.title,
+          price: item.price,
+          imageUrl: item.thumbnail,
+        }),
       });
-    } else {
-      toast.info("Item already in cart.");
+
+      if (response.ok) {
+        dispatch(addToCart(item));
+        toast.success("Item added to cart!", {
+          autoClose: 1500,
+        });
+        router.push("/cart");
+      } else {
+        const errorData = await response.text(); // Use text() to capture unexpected HTML responses
+        console.error("Failed to add item to cart:", errorData);
+        toast.error("Failed to add item to cart.");
+      }
+    } catch (error) {
+      console.error("Error during API request:", error);
+      toast.error("Failed to add item to cart.");
     }
-    router.push('/cart');
   };
 
   // Handle navigation to the cart
   const handleGoToCart = () => {
-    router.push('/cart');
+    router.push("/cart");
   };
 
   // If no item, return null
@@ -43,7 +64,6 @@ const AddCart = ({ item }) => {
       >
         {isInCart ? "Go To Cart" : "Add to Cart"}
       </button>
-      {/* ToastContainer should be placed higher in the component tree, e.g., in RootLayout or _app.js */}
     </div>
   );
 };
