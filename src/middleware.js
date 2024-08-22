@@ -1,29 +1,31 @@
-import { NextResponse } from "next/server";
-import { jwtVerify } from "jose";
+import { NextResponse } from 'next/server';
+import { jwtVerify } from 'jose';
 
 export async function middleware(request) {
-  console.log("Middleware executed");
-  const token = request.cookies.get("token")?.value;
-  console.log("Token from request:", token);
+  // Extract the token from cookies
+  const token = request.cookies.get('token')?.value;
 
   if (token) {
     try {
-      const decoded = await jwtVerify(
-        token,
-        new TextEncoder().encode(process.env.JWT_SECRET)
-      );
-      console.log("Token verified:", decoded);
+      // Verify the token
+      await jwtVerify(token, new TextEncoder().encode(process.env.JWT_SECRET));
+
+      // Token is valid, proceed to the requested page
       return NextResponse.next();
     } catch (error) {
-      console.error("Token verification failed:", error);
-      return NextResponse.redirect(new URL("/signin", request.url));
+      // Token is invalid or expired, redirect to sign-in
+      const redirectResponse = NextResponse.redirect(new URL('/signin', request.url));
+      redirectResponse.headers.set('x-middleware-cache', 'no-cache'); // Ensure cache is disabled
+      return redirectResponse;
     }
   }
 
-  console.log("No token found, redirecting to /signin");
-  return NextResponse.redirect(new URL("/signin", request.url));
+  // No token present, redirect to sign-in
+  const redirectResponse = NextResponse.redirect(new URL('/signin', request.url));
+  redirectResponse.headers.set('x-middleware-cache', 'no-cache'); // Ensure cache is disabled
+  return redirectResponse;
 }
 
 export const config = {
-  matcher: ["/cart"],
+  matcher: ['/cart'], // Protect the cart route
 };
