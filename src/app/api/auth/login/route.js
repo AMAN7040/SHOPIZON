@@ -41,7 +41,7 @@ export async function POST(request) {
 
     const cookie = serialize("token", token, {
       httpOnly: true, // Prevents JavaScript access to the cookie
-      secure: process.env.NODE_ENV === "production", // Secure only in production
+      secure,
       maxAge: 3600, // 1 hour
       path: "/", // Available across the entire site
     });

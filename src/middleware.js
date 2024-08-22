@@ -1,10 +1,8 @@
-import { NextResponse } from 'next/server';
-import { jwtVerify } from 'jose';
-import { cookies } from 'next/headers';
+import { jwtVerify } from "jose";
 
 export async function middleware(request) {
   // Extract the token from cookies
-  const token = cookies().get('token')?.value;
+  const token = request.cookies.get("token")?.value;
 
   if (token) {
     try {
@@ -15,18 +13,16 @@ export async function middleware(request) {
       return NextResponse.next();
     } catch (error) {
       // Token is invalid or expired, redirect to sign-in
-      const redirectResponse = NextResponse.redirect(new URL('/signin', request.url));
-      redirectResponse.headers.set('x-middleware-cache', 'no-cache'); // Ensure cache is disabled
+      return NextResponse.redirect(new URL("/signin", request.url));
       return redirectResponse;
     }
   }
 
   // No token present, redirect to sign-in
-  const redirectResponse = NextResponse.redirect(new URL('/signin', request.url));
-  redirectResponse.headers.set('x-middleware-cache', 'no-cache'); // Ensure cache is disabled
+  return NextResponse.redirect(new URL("/signin", request.url));
   return redirectResponse;
 }
 
 export const config = {
-  matcher: ['/cart'], // Protect the cart route
+  matcher: ["/cart"], // Protect the cart route
 };
