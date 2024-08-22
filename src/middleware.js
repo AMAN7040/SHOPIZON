@@ -7,7 +7,7 @@ export async function middleware(request) {
   console.log('Cookies:', cookies);
 
   // Extract the token
-  const token = cookies.get('token');
+  const token = cookies.get('_vercel_jwt');
   console.log('Token:', token);
 
   if (token) {
