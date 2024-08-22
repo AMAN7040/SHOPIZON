@@ -1,9 +1,10 @@
 import { NextResponse } from 'next/server';
 import { jwtVerify } from 'jose';
+import { cookies } from 'next/headers';
 
 export async function middleware(request) {
   // Extract the token from cookies
-  const token = request.cookies.get('token')?.value;
+  const token = cookies().get('token')?.value;
 
   if (token) {
     try {
